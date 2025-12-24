@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13.0)
+cmake_minimum_required(VERSION 4.0)
 project(planning_core CXX)
 
 set(CMAKE_CXX_STANDARD 14)

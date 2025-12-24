@@ -1,16 +1,24 @@
 #!/bin/bash
 
+set -e
+
 ROOT_DIR=$(cd $(dirname "$0"); pwd)
-# echo "ROOT_DIR: ${ROOT_DIR}"
+echo "ROOT_DIR: ${ROOT_DIR}"
+
+CONDA_PREFIX=${CONDA_PREFIX:-"$HOME/miniconda3"}
+PYTHON_INTERPRETER=${CONDA_PREFIX}/bin/python
+echo "Using python interpreter: ${PYTHON_INTERPRETER}"
 
 cd lib
 
-# rm -rf build
-mkdir build
-
+if [ ! -d "build" ]; then
+  mkdir build
+fi
 cd build
-cmake ../ -DCMAKE_BUILD_TYPE=Release
-make -j6
+
+cmake ../ -GNinja -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=${PYTHON_INTERPRETER}
+ninja
+
 cp ./src/a_star/a_star*.so ../
 cp ./src/trajectory_optimization/traj_opt*.so ../
 cp ./src/ele_planner/ele_planner*.so ../
@@ -30,3 +38,6 @@ export PYTHONPATH=$PYTHONPATH:${ROOT_DIR}/lib
 # cp ./traj_opt-stubs/__init__.pyi ./traj_opt.pyi
 # cp ./ele_planner-stubs/__init__.pyi ./ele_planner.pyi
 # cp ./py_map_manager-stubs/__init__.pyi ./py_map_manager.pyi
+
+echo "Planner built successfully."
+

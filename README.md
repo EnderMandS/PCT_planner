@@ -41,17 +41,25 @@ If you use PCT Planner, please cite the following paper:
 - [CuPy](https://docs.cupy.dev/en/stable/install.html) with CUDA >= 11.7
 - Open3d
 
+``` shell
+mamba create -n pct -c conda-forge -c robostack-noetic ros-noetic-ros-base ros-dev-tools cupy cuda-version=12.6 open3d loguru pybind11
+mamba activate pct
+```
+
 ## Build & Install
 
 Inside the package, there are two modules: the point cloud tomography module for tomogram reconstruction (in **tomography/**) and the planner module for path planning and optimization (in **planner/**).
 You only need to build the planner module before use.
 In **planner/**, run **build_thirdparty.sh** first and then run **build.sh**. 
 
-```bash
+``` shell
+mamba activate pct
 cd planner/
 ./build_thirdparty.sh
 ./build.sh
 ```
+
+If the build fails, you can try rerunning the script.
 
 ## Run Examples
 
